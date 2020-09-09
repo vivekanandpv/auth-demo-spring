@@ -4,6 +4,14 @@ public class UserLoginViewModel {
     private String username;
     private String password;
 
+    public UserLoginViewModel() {
+    }
+
+    public UserLoginViewModel(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }

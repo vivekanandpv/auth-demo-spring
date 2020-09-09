@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,8 @@ public class AuthService {
             UserTokenViewModel tokenViewModel = new UserTokenViewModel();
             tokenViewModel.setToken(loggedInUser.getToken());
             tokenViewModel.setUsername(loggedInUser.getUsername());
+            tokenViewModel.setDisplayName(loggedInUser.getDisplayName());
+            tokenViewModel.setRoles(loggedInUser.getRoles());
 
             return tokenViewModel;
         } else {
@@ -60,10 +63,14 @@ public class AuthService {
     }
 
     public boolean authorize(UserTokenViewModel tokenViewModel, String role) {
+        if (!this.authenticate(tokenViewModel)) {
+            return false;
+        }
+
         User userDb=this.authRepository.getUser(tokenViewModel.getUsername());
 
         return Arrays.stream(userDb.getRoles()
                 .split(";"))
-                .anyMatch(r -> r == role);
+                .anyMatch(r -> r.equals(role));
     }
 }

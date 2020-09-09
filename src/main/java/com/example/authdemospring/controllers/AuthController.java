@@ -28,7 +28,7 @@ public class AuthController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @PostMapping("logout")
+    @PostMapping("/logout")
     public ResponseEntity logout(@RequestHeader("X-SCB-Username") String username,
                                  @RequestHeader("X-SCB-Token") String token) {
         UserTokenViewModel tokenViewModel = new UserTokenViewModel();
