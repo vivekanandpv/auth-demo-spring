@@ -48,7 +48,8 @@ public class AuthService {
         User user = new User();
         String roles = Arrays.stream(registerViewModel.getRoles())
                 .collect(Collectors.joining(";"));
-        String hashedPassword = Hashing.sha512().hashString(registerViewModel.getPassword(), StandardCharsets.UTF_8).toString();
+        String hashedPassword = Hashing.sha512().hashString(registerViewModel.getPassword(),
+                StandardCharsets.UTF_8).toString();
 
         user.setRoles(roles);
         user.setPasswordHash(hashedPassword);

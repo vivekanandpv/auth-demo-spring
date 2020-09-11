@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/sample")
 public class SampleController {
@@ -20,6 +21,7 @@ public class SampleController {
                                     @RequestHeader("X-SCB-Token") String token, @PathVariable int id) {
         UserTokenViewModel tokenViewModel = new UserTokenViewModel(username, token);
         if (this.authService.authorize(tokenViewModel, "admin")) {
+                // Business logic
             return new ResponseEntity("Admin path matched for id: " + id, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
@@ -31,6 +33,7 @@ public class SampleController {
                             @RequestHeader("X-SCB-Token") String token, @PathVariable int id) {
         UserTokenViewModel tokenViewModel = new UserTokenViewModel(username, token);
         if (this.authService.authenticate(tokenViewModel)) {
+            //Business logic
             return new ResponseEntity("Authenticated path matched for id: " + id, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
