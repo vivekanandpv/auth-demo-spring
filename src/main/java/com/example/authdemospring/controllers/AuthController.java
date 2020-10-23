@@ -1,6 +1,7 @@
 package com.example.authdemospring.controllers;
 
 import com.example.authdemospring.services.AuthService;
+import com.example.authdemospring.services.IAuthService;
 import com.example.authdemospring.viewmodels.UserLoginViewModel;
 import com.example.authdemospring.viewmodels.UserRegisterViewModel;
 import com.example.authdemospring.viewmodels.UserTokenViewModel;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthController {
-    private final AuthService authService;
+    private final IAuthService authService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(IAuthService authService) {
         this.authService = authService;
     }
 

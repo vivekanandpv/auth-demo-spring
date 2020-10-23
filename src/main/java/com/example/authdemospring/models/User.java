@@ -1,8 +1,13 @@
 package com.example.authdemospring.models;
 
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
+@Table(name="auth_user")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String username;
     private String displayName;
