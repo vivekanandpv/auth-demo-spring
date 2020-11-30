@@ -41,7 +41,7 @@ public class AuthService implements IAuthService {
 
             return tokenViewModel;
         } else {
-            throw new RuntimeException("Cannot process the request");
+            throw new RuntimeException("Could not process the request");
         }
     }
 
@@ -81,6 +81,10 @@ public class AuthService implements IAuthService {
         User userDb=this.authRepository
                 .findByUsername(tokenViewModel.getUsername())
                 .orElseThrow(() -> new RuntimeException("Authentication failed"));
+
+        if (userDb.getToken() == null) {
+            return false;
+        }
 
         return userDb.getToken().equals(tokenViewModel.getToken());
     }
