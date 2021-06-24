@@ -20,29 +20,29 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<UserTokenViewModel> login(@RequestBody UserLoginViewModel loginViewModel) {
-        return new ResponseEntity(this.authService.login(loginViewModel), HttpStatus.OK);
+        return ResponseEntity.ok(this.authService.login(loginViewModel));
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserRegisterViewModel viewModel) {
+    public ResponseEntity<?> register(@RequestBody UserRegisterViewModel viewModel) {
         this.authService.createUser(viewModel);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/logout")
-    public ResponseEntity logout(@RequestHeader("X-SCB-Username") String username,
+    public ResponseEntity<?> logout(@RequestHeader("X-SCB-Username") String username,
                                  @RequestHeader("X-SCB-Token") String token) {
         UserTokenViewModel tokenViewModel = new UserTokenViewModel();
         tokenViewModel.setUsername(username);
         tokenViewModel.setToken(token);
         this.authService.logout(tokenViewModel);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     //  Custom exceptions can be used to fine-tune the response here
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity handleGeneralExceptions() {
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> handleGeneralExceptions() {
+        return ResponseEntity.status(401).build();
     }
 }
