@@ -18,26 +18,26 @@ public class SampleController {
     }
 
     @GetMapping("/admin-only/{id}")
-    public ResponseEntity adminOnly(@RequestHeader("X-SCB-Username") String username,
+    public ResponseEntity<?> adminOnly(@RequestHeader("X-SCB-Username") String username,
                                     @RequestHeader("X-SCB-Token") String token, @PathVariable int id) {
         UserTokenViewModel tokenViewModel = new UserTokenViewModel(username, token);
         if (this.authService.authorize(tokenViewModel, "admin")) {
                 // Business logic
-            return new ResponseEntity("Admin path matched for id: " + id, HttpStatus.OK);
+            return ResponseEntity.ok("Admin path matched for id: " + id);
         } else {
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(401).build();
         }
     }
 
     @GetMapping("/authenticated-only/{id}")
-    public ResponseEntity authenticatedOnly(@RequestHeader("X-SCB-Username") String username,
+    public ResponseEntity<?> authenticatedOnly(@RequestHeader("X-SCB-Username") String username,
                             @RequestHeader("X-SCB-Token") String token, @PathVariable int id) {
         UserTokenViewModel tokenViewModel = new UserTokenViewModel(username, token);
         if (this.authService.authenticate(tokenViewModel)) {
             //Business logic
-            return new ResponseEntity("Authenticated path matched for id: " + id, HttpStatus.OK);
+            return ResponseEntity.ok("Authenticated path matched for id: " + id);
         } else {
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(401).build();
         }
     }
 }

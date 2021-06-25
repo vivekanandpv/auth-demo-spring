@@ -40,10 +40,4 @@ public class AuthController {
 
         return ResponseEntity.ok().build();
     }
-
-    //  Custom exceptions can be used to fine-tune the response here
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> handleGeneralExceptions() {
-        return ResponseEntity.status(401).build();
-    }
 }
